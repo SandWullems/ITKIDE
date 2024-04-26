@@ -4,6 +4,10 @@ firebase.initializeApp({
     apiKey: "AIzaSyBish5b5FXkcACm45r4ahZO9GK7I9D8LN8",
     authDomain: "ideeritk.firebaseapp.com",
     projectId: "ideeritk",
+    storageBucket: "ideeritk.appspot.com",
+    messagingSenderId: "532522853902",
+    appId: "1:532522853902:web:d83e847c083fb9d3cdbe5f",
+    measurementId: "G-HBV6NDDK24"
   });
   
   const db = firebase.firestore();
