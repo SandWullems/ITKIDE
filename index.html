@@ -4,24 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IdeaBox</title>
+  <!-- Include Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
+  <!-- Link to your CSS file -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h1>ITK's Förslaglåda</h1>
   <p>blablabla bla.</p>
 
-  <div id="input-container">
-    <input type="text" id="suggestionInput" placeholder="Ange ditt förslag här">
-    <input type="text" id="nameInput" placeholder="Anonymt">
-    <button onclick="addSuggestion()">Skicka</button>
-  </div>
-
   <div id="suggestions-container">
     <!-- Suggestions will be dynamically added here -->
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
+  <div id="input-container">
+    <input type="text" id="suggestionInput" placeholder="Ange ditt förslag här">
+    <input type="text" id="nameInput" placeholder="Anonymt">
+    <button id="sendButton">Skicka</button>
+  </div>
+
+  <!-- Firebase configuration -->
+  <script>
+    const firebaseConfig = {
+    apiKey: "AIzaSyBish5b5FXkcACm45r4ahZO9GK7I9D8LN8",
+    authDomain: "ideeritk.firebaseapp.com",
+    projectId: "ideeritk",
+    storageBucket: "ideeritk.appspot.com",
+    messagingSenderId: "532522853902",
+    appId: "1:532522853902:web:d83e847c083fb9d3cdbe5f",
+    measurementId: "G-HBV6NDDK24"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+
+  <!-- Your custom script -->
   <script src="script.js"></script>
 </body>
 </html>
