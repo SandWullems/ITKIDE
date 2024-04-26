@@ -10,16 +10,18 @@
   <h1>ITK's Förslaglåda</h1>
   <p>blablabla bla.</p>
 
+  <div id="input-container">
+    <input type="text" id="suggestionInput" placeholder="Ange ditt förslag här">
+    <input type="text" id="nameInput" placeholder="Anonymt">
+    <button onclick="addSuggestion()">Skicka</button>
+  </div>
+
   <div id="suggestions-container">
     <!-- Suggestions will be dynamically added here -->
   </div>
 
-  <div id="input-container">
-    <input type="text" id="suggestionInput" placeholder="Ange ditt förslag här">
-    <input type="text" id="nameInput" placeholder="Anonymt">
-    <button id="sendButton">Skicka</button>
-  </div>
-
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
