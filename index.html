@@ -3,45 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IdeaBox</title>
-  <!-- Include Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js"></script>
-  <!-- Link to your CSS file -->
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <h1>ITK's Förslaglåda</h1>
-  <p>blablabla bla.</p>
+  <title>Guestbook</title>
+  <!-- Latest Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-  <div id="suggestions-container">
-    <!-- Suggestions will be dynamically added here -->
-  </div>
-
-  <div id="input-container">
-    <input type="text" id="suggestionInput" placeholder="Ange ditt förslag här">
-    <input type="text" id="nameInput" placeholder="Anonymt">
-    <button id="sendButton">Skicka</button>
-  </div>
-
-  <!-- Firebase configuration -->
-  <script>
+    // Your web app's Firebase configuration
     const firebaseConfig = {
-    apiKey: "AIzaSyBish5b5FXkcACm45r4ahZO9GK7I9D8LN8",
-    authDomain: "ideeritk.firebaseapp.com",
-    projectId: "ideeritk",
-    storageBucket: "ideeritk.appspot.com",
-    messagingSenderId: "532522853902",
-    appId: "1:532522853902:web:d83e847c083fb9d3cdbe5f",
-    measurementId: "G-HBV6NDDK24"
+      apiKey: "AIzaSyBish5b5FXkcACm45r4ahZO9GK7I9D8LN8",
+      authDomain: "ideeritk.firebaseapp.com",
+      projectId: "ideeritk",
+      storageBucket: "ideeritk.appspot.com",
+      messagingSenderId: "532522853902",
+      appId: "1:532522853902:web:d83e847c083fb9d3cdbe5f",
+      measurementId: "G-HBV6NDDK24"
     };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
   </script>
-
-  <!-- Your custom script -->
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Guestbook</h1>
+    <div id="comments-container">
+      <!-- Comments will be dynamically added here -->
+    </div>
+    <form id="guestbook-form">
+      <label for="name">Your Name:</label>
+      <input type="text" id="name" name="name">
+      <br>
+      <label for="comment">Your Comment:</label>
+      <textarea id="comment" name="comment"></textarea>
+      <br>
+      <button type="submit">Submit</button>
+    </form>
+    <div class="navigation">
+      <button id="prev-btn">&lt; Previous</button>
+      <button id="next-btn">Next &gt;</button>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,56 +1,54 @@
-// Initialize Firebase
-// Replace YOUR_API_KEY, YOUR_AUTH_DOMAIN, YOUR_PROJECT_ID with your Firebase config
-firebase.initializeApp({
-    apiKey: "AIzaSyBish5b5FXkcACm45r4ahZO9GK7I9D8LN8",
-    authDomain: "ideeritk.firebaseapp.com",
-    projectId: "ideeritk",
-    storageBucket: "ideeritk.appspot.com",
-    messagingSenderId: "532522853902",
-    appId: "1:532522853902:web:d83e847c083fb9d3cdbe5f",
-    measurementId: "G-HBV6NDDK24"
-  });
-  
-  const db = firebase.firestore();
-  
-  const suggestionsContainer = document.getElementById('suggestions-container');
-  const suggestionInput = document.getElementById('suggestionInput');
-  const nameInput = document.getElementById('nameInput');
-  const sendButton = document.getElementById('sendButton');
-  
-  sendButton.addEventListener('click', async () => {
-    const suggestion = suggestionInput.value.trim();
-    const name = nameInput.value.trim() || 'Anonymt';
-  
-    if (suggestion !== '') {
-      try {
-        await db.collection('suggestions').add({
-          suggestion: suggestion,
-          name: name,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        });
-        // Clear input fields after successful submission
-        suggestionInput.value = '';
-        nameInput.value = '';
-      } catch (error) {
-        console.error('Error adding suggestion: ', error);
-        // Handle error (e.g., show an alert to the user)
-      }
-    }
-  });
-  
-  // Real-time listener to display suggestions
-  db.collection('suggestions')
-    .orderBy('timestamp', 'desc')
-    .onSnapshot((snapshot) => {
-      suggestionsContainer.innerHTML = ''; // Clear previous suggestions
-      snapshot.forEach((doc) => {
-        const suggestionData = doc.data();
-        const suggestionDiv = document.createElement('div');
-        suggestionDiv.classList.add('suggestion');
-        suggestionDiv.innerHTML = `
-          <p><strong>${suggestionData.name}:</strong> ${suggestionData.suggestion}</p>
-        `;
-        suggestionsContainer.appendChild(suggestionDiv);
-      });
+// Function to fetch comments from Firestore
+async function fetchComments() {
+  try {
+    const snapshot = await db.collection('comments').get();
+    const comments = snapshot.docs.map(doc => doc.data());
+    displayComments(comments);
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+  }
+}
+
+// Function to submit a new comment to Firestore
+async function submitComment(name, comment) {
+  try {
+    await db.collection('comments').add({ name, comment });
+    fetchComments(); // Refresh comments after submission
+  } catch (error) {
+    console.error('Error submitting comment:', error);
+  }
+}
+
+// Function to display comments
+function displayComments(comments) {
+  const commentsContainer = document.getElementById('comments-container');
+  commentsContainer.innerHTML = '';
+  if (comments.length === 0) {
+    commentsContainer.innerHTML = '<p>No comments yet.</p>';
+  } else {
+    comments.forEach(comment => {
+      const commentDiv = document.createElement('div');
+      commentDiv.classList.add('comment');
+      commentDiv.innerHTML = `<strong>${comment.name}:</strong> ${comment.comment}`;
+      commentsContainer.appendChild(commentDiv);
     });
-  
+  }
+}
+
+// Event listener for form submission
+const guestbookForm = document.getElementById('guestbook-form');
+guestbookForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+  const nameInput = document.getElementById('name');
+  const commentInput = document.getElementById('comment');
+  const name = nameInput.value.trim() || 'Anonymous';
+  const comment = commentInput.value.trim();
+  if (comment !== '') {
+    submitComment(name, comment);
+    nameInput.value = '';
+    commentInput.value = '';
+  }
+});
+
+// Initial fetch of comments when the page loads
+fetchComments();
